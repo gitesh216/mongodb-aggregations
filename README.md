@@ -42,7 +42,7 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
 ]
 ```
 👉 Filters only active users and counts them.
-## Q.2 Average Age of All Users
+## Q.2 What is the average age of all users
 ```js
 [
   {
@@ -53,6 +53,7 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
+👉 Groups all users and calculates the average age.
 ## Q3. Top 5 Favorite Fruits
 ```js
 [
@@ -70,7 +71,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q4. Gender count
+👉 Groups by favorite fruit, sorts them in descending order, and limits the result to the top 5.
+## Q4. Find the total number of males and females
 ```js
 [
   {
@@ -81,7 +83,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q5.  Country with Most Users
+👉 Groups users by gender and counts each group.
+## Q5.  Which country has the highest number of registered users?
 ```js
 [
   {
@@ -98,7 +101,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q6. Unique Eye Colors
+👉 Drills into nested fields to count users by country and returns the top one.
+## Q6.  List all unique eye colors
 ```js
 [
   {
@@ -108,7 +112,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q7. Average Tags Per User
+👉 Groups by eye color to extract unique values.
+## Q7. What is the average number of tags per user?
 ### Option A (Using $unwind):
 ```js
 [
@@ -143,7 +148,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q8. Users with "enim" Tag
+👉 Two methods to compute the average number of tags — one by unwinding, and one using array size.
+## Q8. Count users having "enim" as one of their tags
 ```js
 [
   {
@@ -154,7 +160,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q9. Inactive Users with "velit" Tag
+👉 Filters documents that contain "enim" in tags and counts them.
+## Q9. Names and ages of inactive users who have "velit" as a tag
 ```js
 [
   {
@@ -171,7 +178,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q10. Users with Phone Starting +1 (940)
+👉 Filters based on multiple fields and projects only required values.
+## Q10. How many users have a phone number starting with +1 (940)?
 ```js
 [
   {
@@ -184,7 +192,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q11. Recently Registered Users
+👉 Uses regex to match phone numbers starting with +1 (940).
+## Q11. Who has registered most recently? (Top 5)
 ```js
 [
   {
@@ -202,7 +211,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q12. Group Users by Favorite Fruit
+👉 Sorts by registration date and returns top 5 recent users.
+## Q12. Categorize users by their favorite fruits
 ```js
 [
   {
@@ -213,7 +223,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q13. "ad" as Second Tag
+👉 Groups users by fruit and lists all names in each category.
+## Q13. How many users have "ad" as the second tag?
 ```js
 [
   {
@@ -226,7 +237,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q14. Users with All Tags enim and id
+👉 Uses array index to match "ad" as the second tag.
+## Q14. Find users who have both "enim" and "id" as their tags
 ```js
 [
   {
@@ -236,7 +248,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q15. Companies in USA and User Count
+👉 $all ensures both values exist in the array.
+## Q15. List all companies located in the USA with user count
 ```js
 [
   {
@@ -252,7 +265,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q16. Get Author Details using $lookup
+👉 Filters for companies in the USA and counts users per company.
+## Q16. Get Author details based on author_id
 ### Option A (Using $first):
 ```js
 [
@@ -289,3 +303,5 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
+👉 Performs a lookup to join with the authors collection and flattens the joined array.
+
