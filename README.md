@@ -41,6 +41,7 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
+👉 Filters only active users and counts them.
 ## Q.2 Average Age of All Users
 ```js
 [
