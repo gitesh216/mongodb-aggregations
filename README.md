@@ -41,7 +41,8 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
   }
 ]
 ```
-## Q1. Count Active Users
+## Q.2 Average Age of All Users
+```js
 [
   {
     $group: {
@@ -50,3 +51,240 @@ This repo contains a collection of useful MongoDB aggregation queries with synta
     }
   }
 ]
+```
+## Q3. Top 5 Favorite Fruits
+```js
+[
+  {
+    $group: {
+      _id: "$favoriteFruit",
+      count: { $sum: 1 }
+    }
+  },
+  {
+    $sort: { count: -1 }
+  },
+  {
+    $limit: 5
+  }
+]
+```
+## Q4. Gender count
+```js
+[
+  {
+    $group: {
+      _id: "$gender",
+      genderCount: { $sum: 1 }
+    }
+  }
+]
+```
+## Q5.  Country with Most Users
+```js
+[
+  {
+    $group: {
+      _id: "$company.location.country",
+      userCount: { $sum: 1 }
+    }
+  },
+  {
+    $sort: { userCount: -1 }
+  },
+  {
+    $limit: 1
+  }
+]
+```
+## Q6. Unique Eye Colors
+```js
+[
+  {
+    $group: {
+      _id: "$eyeColor"
+    }
+  }
+]
+```
+## Q7. Average Tags Per User
+### Option A (Using $unwind):
+```js
+[
+  { $unwind: "$tags" },
+  {
+    $group: {
+      _id: "$_id",
+      numberOfTags: { $sum: 1 }
+    }
+  },
+  {
+    $group: {
+      _id: null,
+      averageNumberOfTags: { $avg: "$numberOfTags" }
+    }
+  }
+]
+```
+### Option B (Using $size and $addFields):
+```js
+[
+  {
+    $addFields: {
+      numberOfTags: { $size: { $ifNull: ["$tags", []] } }
+    }
+  },
+  {
+    $group: {
+      _id: null,
+      averageNumberOfTags: { $avg: "$numberOfTags" }
+    }
+  }
+]
+```
+## Q8. Users with "enim" Tag
+```js
+[
+  {
+    $match: { tags: "enim" }
+  },
+  {
+    $count: "userWithEnimTag"
+  }
+]
+```
+## Q9. Inactive Users with "velit" Tag
+```js
+[
+  {
+    $match: {
+      isActive: false,
+      tags: "velit"
+    }
+  },
+  {
+    $project: {
+      name: 1,
+      age: 1
+    }
+  }
+]
+```
+## Q10. Users with Phone Starting +1 (940)
+```js
+[
+  {
+    $match: {
+      "company.phone": { $regex: /^\+1 \(940\)/ }
+    }
+  },
+  {
+    $count: "usersWithSpecialPhoneNumber"
+  }
+]
+```
+## Q11. Recently Registered Users
+```js
+[
+  {
+    $sort: { registered: -1 }
+  },
+  {
+    $limit: 5
+  },
+  {
+    $project: {
+      name: 1,
+      favoriteFruit: 1,
+      registered: 1
+    }
+  }
+]
+```
+## Q12. Group Users by Favorite Fruit
+```js
+[
+  {
+    $group: {
+      _id: "$favoriteFruit",
+      users: { $push: "$name" }
+    }
+  }
+]
+```
+## Q13. "ad" as Second Tag
+```js
+[
+  {
+    $match: {
+      "tags.1": "ad"
+    }
+  },
+  {
+    $count: "numberOfAdTagUsers"
+  }
+]
+```
+## Q14. Users with All Tags enim and id
+```js
+[
+  {
+    $match: {
+      tags: { $all: ["enim", "id"] }
+    }
+  }
+]
+```
+## Q15. Companies in USA and User Count
+```js
+[
+  {
+    $match: {
+      "company.location.country": "USA"
+    }
+  },
+  {
+    $group: {
+      _id: "$company.title",
+      userCount: { $sum: 1 }
+    }
+  }
+]
+```
+## Q16. Get Author Details using $lookup
+### Option A (Using $first):
+```js
+[
+  {
+    $lookup: {
+      from: "authors",
+      localField: "author_id",
+      foreignField: "_id",
+      as: "author_details"
+    }
+  },
+  {
+    $addFields: {
+      author_details: { $first: "$author_details" }
+    }
+  }
+]
+```
+### Option B (Using $arrayElementAt):
+```js
+[
+  {
+    $lookup: {
+      from: "authors",
+      localField: "author_id",
+      foreignField: "_id",
+      as: "author_details"
+    }
+  },
+  {
+    $addFields: {
+      author_details: { $arrayElementAt: ["$author_details", 0] }
+    }
+  }
+]
+```
